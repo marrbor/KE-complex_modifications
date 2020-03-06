@@ -120,8 +120,8 @@
         }
       ]
     },
-          {
-          "description": "AquaSKK AZIK for JetBrains",
+    {
+      "description": "AquaSKK AZIK for JetBrains",
           <%
             jetbrains = {
               "type"=>"frontmost_application_if",
@@ -134,6 +134,22 @@
               "input_sources"=>[
                 {
                   "input_source_id"=>"^jp\\.sourceforge\\.inputmethod\\.aquaskk\\.(Hiragana|Katakana|HalfWidthKana)$"
+                }
+              ]
+            }
+            katakana = {
+              "type"=>"input_source_if",
+              "input_sources"=>[
+                {
+                  "input_source_id"=>"^jp\\.sourceforge\\.inputmethod\\.aquaskk\\.Katakana$"
+                }
+              ]
+            }
+            hiragana = {
+              "type"=>"input_source_if",
+              "input_sources"=>[
+                {
+                  "input_source_id"=>"^jp\\.sourceforge\\.inputmethod\\.aquaskk\\.Hiragana$"
                 }
               ]
             }
@@ -207,7 +223,23 @@
                           }
                       }
                   ],
-                  "conditions": <%= JSON.generate([jetbrains, non_latin]) %>
+                  "conditions": <%= JSON.generate([jetbrains, hiragana]) %>
+              },
+              {
+                  "type": "basic",
+                  "from": {
+                      "key_code": "open_bracket"
+                  },
+                  "to": [
+                      {
+                          "select_input_source": {
+                              "language": "ja",
+                              "input_source_id": "jp.sourceforge.inputmethod.aquaskk.Hiragana",
+                              "input_mode_id": "com.apple.inputmethod.Japanese.Hiragana"
+                          }
+                      }
+                  ],
+                  "conditions": <%= JSON.generate([jetbrains, katakana]) %>
               }
           ]
       }
